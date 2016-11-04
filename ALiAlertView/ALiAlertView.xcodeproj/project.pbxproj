@@ -528,6 +528,7 @@
 				EBE438571DCC2E4700FA7F1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EBE438581DCC2E4700FA7F1D /* Build configuration list for PBXNativeTarget "ALiAlertViewTests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +537,7 @@
 				EBE4385A1DCC2E4700FA7F1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EBE4385B1DCC2E4700FA7F1D /* Build configuration list for PBXNativeTarget "ALiAlertViewUITests" */ = {
 			isa = XCConfigurationList;
@@ -544,6 +546,7 @@
 				EBE4385D1DCC2E4700FA7F1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

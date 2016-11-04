@@ -28,7 +28,6 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 //整体的View
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIView *buttonView;
-@property (nonatomic, strong) UIView *msgView;
 @property (nonatomic, strong) UILabel *tipLabel;
 //数据
 @property (nonatomic, strong) NSMutableArray *titles;
@@ -44,8 +43,19 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 
 - (void)show
 {
+    if (self.msgView == nil) {
+        //使用默认的样式
+        self.msgView = [self defaultMsgView];
+        [self configHeaderView];
+    } else {
+        self.msgHeight = self.msgView.frame.size.height-kDefaultHeaderHeight;
+        [self setNeedsDisplay];
+        [self defaultSetting];
+        [self buildUI];
+//        self.msgView.frame = CGRectMake((kDefaultAlertWidth -self.msgView.frame.size.width)/2., 10, self.msgView.frame.size.width, self.msgView.frame.size.height);
+        [self addSubview:self.msgView];
+    }
     [self configButtonView];
-    [self configHeaderView];
     [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
     [self doAlertShowAnimation];
 
@@ -81,8 +91,6 @@ const static CGFloat kDefaultHeaderHeight       = 60;
     UIView *hLine = [[UIView alloc] initWithFrame:CGRectMake(0, kDefaultHeaderHeight+self.msgHeight, kDefaultAlertWidth, 1)];
     hLine.backgroundColor = lineColor;
     [self.containerView addSubview:hLine];
-    
-    
 }
 
 - (void)configButtonView
@@ -119,28 +127,13 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 
 #pragma mark - Life Cycle
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        self.orientation = UIInterfaceOrientationPortrait;
-        self.roattionEnable = YES;
-        self.tapDismissEnable = YES;
-        self.clipsToBounds = YES;
-        self.layer.cornerRadius = kDefaultCornerRadius;
-        self.titles = [NSMutableArray array];
-        self.actionDict = [NSMutableDictionary dictionaryWithCapacity:1];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    }
-    return self;
-}
-
 - (instancetype)initWithTitle:(NSString *)aTitle
 {
     if (self = [self init]) {
         self.tipMsg = aTitle;
         CGSize size = [self sizeString:aTitle withFont:[UIFont systemFontOfSize:18]];
         self.msgHeight = size.height;
+        [self defaultSetting];
         [self buildUI];
     }
     return self;
@@ -234,6 +227,19 @@ const static CGFloat kDefaultHeaderHeight       = 60;
         [self removeFromSuperview];
     };
     [self.actionDict setValue:clickBlock forKey:title];
+}
+
+- (void)defaultSetting
+{
+    self.orientation = UIInterfaceOrientationPortrait;
+    self.roattionEnable = YES;
+    self.tapDismissEnable = YES;
+    self.clipsToBounds = YES;
+    self.layer.cornerRadius = kDefaultCornerRadius;
+    self.titles = [NSMutableArray array];
+    self.actionDict = [NSMutableDictionary dictionaryWithCapacity:1];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma mark - 键盘处理
@@ -401,7 +407,7 @@ const static CGFloat kDefaultHeaderHeight       = 60;
     return _buttonView;
 }
 
-- (UIView *)msgView
+- (UIView *)defaultMsgView
 {
     if (_msgView == nil) {
         _msgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kDefaultAlertWidth, kDefaultHeaderHeight+self.msgHeight)];

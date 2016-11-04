@@ -36,13 +36,22 @@
                                     <action selector="dismiss:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UCG-pa-uhB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e2P-Lc-ixR">
+                                <rect key="frame" x="143" y="611" width="88" height="30"/>
+                                <state key="normal" title="custom View"/>
+                                <connections>
+                                    <action selector="customView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J1r-JN-a4y"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="e2P-Lc-ixR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="F4h-kg-FHL"/>
                             <constraint firstItem="5Ne-VG-GjU" firstAttribute="baseline" secondItem="5XO-xO-5hv" secondAttribute="baseline" id="O2O-hO-Keo"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5XO-xO-5hv" secondAttribute="bottom" constant="113" id="STD-ec-f3Z"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5Ne-VG-GjU" secondAttribute="trailing" constant="43" id="aDY-jr-z2P"/>
                             <constraint firstItem="5XO-xO-5hv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="61" id="dEb-nZ-Fbo"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="e2P-Lc-ixR" secondAttribute="bottom" constant="26" id="hEZ-Gj-D9C"/>
                         </constraints>
                     </view>
                 </viewController>
