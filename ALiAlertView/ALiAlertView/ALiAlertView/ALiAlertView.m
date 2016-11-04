@@ -25,7 +25,9 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 @property (nonatomic, strong) CMMotionManager *motionManager;
 @property (nonatomic, assign) UIInterfaceOrientation lastOrientation;
 
+//整体的View
 @property (nonatomic, strong) UIView *containerView;
+@property (nonatomic, strong) UIView *buttonView;
 @end
 
 @implementation ALiAlertView
@@ -33,24 +35,38 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 #pragma mark - Public Method
 
 - (void)show
-{}
+{
+    [self addSubview:self.containerView];
+    self.containerView.frame = self.bounds;
+    [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
+    [self doAlertShowAnimation];
 
-- (void)dismiss{}
+}
+
+- (void)dismiss{
+    [self doAlertDismissAnimation];
+    [self removeFromSuperview];
+}
 
 
 #pragma mark - Load View
+
+- (void)buildUI
+{
+    CGSize screen = [self screenSize];
+    CGSize container = [self containerSize];
+    self.frame = CGRectMake((screen.width - container.width)/2., (screen.height - container.height)/2., container.width,container.height);
+}
 
 #pragma mark - Life Cycle
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor whiteColor];
-        self.alpha = 0.9;
         self.orientation = UIInterfaceOrientationPortrait;
         self.roattionEnable = YES;
         self.tapDismissEnable = YES;
-        
+        [self buildUI];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     }
@@ -82,7 +98,7 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 
 - (CGSize)screenSize
 {
-    if (self.lastOrientation == UIInterfaceOrientationPortrait) {
+    if (self.lastOrientation == UIInterfaceOrientationPortrait || self.lastOrientation == UIInterfaceOrientationUnknown) {
         
         return CGSizeMake(SCREEN_W,SCREEN_H);
     } else {
@@ -94,6 +110,39 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 - (CGSize)containerSize
 {
     return CGSizeMake(kDefaultAlertWidth, kDefaultButtonHeight + kDefaultHeaderHeight);
+}
+
+- (void)doAlertShowAnimation
+{
+    self.containerView.layer.opacity = 0.5f;
+    self.containerView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.containerView.layer.opacity = 1.0f;
+                         self.containerView.layer.transform = CATransform3DMakeScale(1, 1, 1);
+                     }
+                     completion:NULL
+     ];
+}
+
+
+- (void)doAlertDismissAnimation
+{
+    CATransform3D currentTransform = self.containerView.layer.transform;
+    self.containerView.layer.opacity = 1.0f;
+
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.containerView.layer.transform = CATransform3DConcat(currentTransform, CATransform3DMakeScale(0.6f, 0.6f, 1.0));
+                         self.containerView.layer.opacity = 0.0f;
+                     }
+                     completion:^(BOOL finished) {
+                         for (UIView *v in [self subviews]) {
+                             [v removeFromSuperview];
+                         }
+                         [self removeFromSuperview];
+                     }
+     ];
 }
 
 #pragma mark - 键盘处理
@@ -240,9 +289,10 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 - (UIView *)containerView
 {
     if (_containerView == nil) {
-        CGSize screen = [self screenSize];
-        CGSize container = [self containerSize];
-        _containerView = [[UIView alloc] initWithFrame:CGRectMake((screen.width - container.width)/2., (screen.height - container.height)/2., container.width,container.height)];
+        _containerView = [[UIView alloc] init];
+        _containerView.backgroundColor = [UIColor whiteColor];
+        _containerView.alpha = 0.9;
+        _containerView.layer.cornerRadius = kDefaultCornerRadius;
     }
     return _containerView;
 }

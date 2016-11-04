@@ -7,16 +7,26 @@
 //
 
 #import "ViewController.h"
+#import "ALiAlertView.h"
 
 @interface ViewController ()
-
+@property (nonatomic, strong) ALiAlertView *alert;
 @end
 
 @implementation ViewController
+- (IBAction)dismiss:(UIButton *)sender {
+    [self.alert dismiss];
+
+}
+- (IBAction)show:(UIButton *)sender {
+    self.alert = [[ALiAlertView alloc] init];
+    [self.alert show];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor redColor];
 }
 
 
