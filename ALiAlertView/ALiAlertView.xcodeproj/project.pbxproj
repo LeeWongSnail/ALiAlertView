@@ -15,6 +15,7 @@
 		EBE4383B1DCC2E4700FA7F1D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBE438391DCC2E4700FA7F1D /* LaunchScreen.storyboard */; };
 		EBE438461DCC2E4700FA7F1D /* ALiAlertViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EBE438451DCC2E4700FA7F1D /* ALiAlertViewTests.m */; };
 		EBE438511DCC2E4700FA7F1D /* ALiAlertViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = EBE438501DCC2E4700FA7F1D /* ALiAlertViewUITests.m */; };
+		EBE438611DCC2F0D00FA7F1D /* ALiAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = EBE438601DCC2F0D00FA7F1D /* ALiAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		EBE4384C1DCC2E4700FA7F1D /* ALiAlertViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ALiAlertViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE438501DCC2E4700FA7F1D /* ALiAlertViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ALiAlertViewUITests.m; sourceTree = "<group>"; };
 		EBE438521DCC2E4700FA7F1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBE4385F1DCC2F0D00FA7F1D /* ALiAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALiAlertView.h; sourceTree = "<group>"; };
+		EBE438601DCC2F0D00FA7F1D /* ALiAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALiAlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,14 +104,11 @@
 		EBE4382A1DCC2E4700FA7F1D /* ALiAlertView */ = {
 			isa = PBXGroup;
 			children = (
+				EBE4385E1DCC2EE500FA7F1D /* ALiAlertView */,
 				EBE4382E1DCC2E4700FA7F1D /* AppDelegate.h */,
 				EBE4382F1DCC2E4700FA7F1D /* AppDelegate.m */,
 				EBE438311DCC2E4700FA7F1D /* ViewController.h */,
 				EBE438321DCC2E4700FA7F1D /* ViewController.m */,
-				EBE438341DCC2E4700FA7F1D /* Main.storyboard */,
-				EBE438371DCC2E4700FA7F1D /* Assets.xcassets */,
-				EBE438391DCC2E4700FA7F1D /* LaunchScreen.storyboard */,
-				EBE4383C1DCC2E4700FA7F1D /* Info.plist */,
 				EBE4382B1DCC2E4700FA7F1D /* Supporting Files */,
 			);
 			path = ALiAlertView;
@@ -117,6 +117,10 @@
 		EBE4382B1DCC2E4700FA7F1D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EBE438341DCC2E4700FA7F1D /* Main.storyboard */,
+				EBE438371DCC2E4700FA7F1D /* Assets.xcassets */,
+				EBE438391DCC2E4700FA7F1D /* LaunchScreen.storyboard */,
+				EBE4383C1DCC2E4700FA7F1D /* Info.plist */,
 				EBE4382C1DCC2E4700FA7F1D /* main.m */,
 			);
 			name = "Supporting Files";
@@ -138,6 +142,15 @@
 				EBE438521DCC2E4700FA7F1D /* Info.plist */,
 			);
 			path = ALiAlertViewUITests;
+			sourceTree = "<group>";
+		};
+		EBE4385E1DCC2EE500FA7F1D /* ALiAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				EBE4385F1DCC2F0D00FA7F1D /* ALiAlertView.h */,
+				EBE438601DCC2F0D00FA7F1D /* ALiAlertView.m */,
+			);
+			path = ALiAlertView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +291,7 @@
 			files = (
 				EBE438331DCC2E4700FA7F1D /* ViewController.m in Sources */,
 				EBE438301DCC2E4700FA7F1D /* AppDelegate.m in Sources */,
+				EBE438611DCC2F0D00FA7F1D /* ALiAlertView.m in Sources */,
 				EBE4382D1DCC2E4700FA7F1D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
