@@ -16,10 +16,12 @@
 @implementation ViewController
 - (IBAction)dismiss:(UIButton *)sender {
     [self.alert dismiss];
+    [self.alert removeFromSuperview];
+    self.alert = nil;
 
 }
 - (IBAction)show:(UIButton *)sender {
-    self.alert = [[ALiAlertView alloc] init];
+    self.alert = [[ALiAlertView alloc] initWithTitle:@"是否确认执行此操作,是否确认执行此操作是否确认执行此操作是否确认执行此操作是否确认执行此操作"];
     [self.alert show];
 }
 

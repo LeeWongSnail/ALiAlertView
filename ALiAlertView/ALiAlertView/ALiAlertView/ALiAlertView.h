@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ALiAlertView : UIView
-
-
 /**
  是否允许根据重力感应调整弹窗的方向
  */
@@ -29,6 +27,11 @@
  */
 @property (nonatomic, assign) UIInterfaceOrientation orientation;
 
+//-------------------------Method-------------------------------------
+
+- (instancetype)initWithTitle:(NSString *)aTitle;
+
+- (void)addButtonWithTitle:(NSString *)title whenClick:(void (^)(NSInteger index))clickHandler;
 
 /**
  显示AlertView

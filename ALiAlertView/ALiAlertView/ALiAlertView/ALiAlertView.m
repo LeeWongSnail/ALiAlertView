@@ -28,6 +28,14 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 //整体的View
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIView *buttonView;
+@property (nonatomic, strong) UIView *msgView;
+@property (nonatomic, strong) UILabel *tipLabel;
+//数据
+@property (nonatomic, strong) NSMutableArray *titles;
+@property (nonatomic, strong) NSMutableDictionary *actionDict;
+@property (nonatomic, strong) NSString *tipMsg;
+@property (nonatomic, assign) CGFloat msgHeight;
+
 @end
 
 @implementation ALiAlertView
@@ -36,8 +44,8 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 
 - (void)show
 {
-    [self addSubview:self.containerView];
-    self.containerView.frame = self.bounds;
+    [self configButtonView];
+    [self configHeaderView];
     [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
     [self doAlertShowAnimation];
 
@@ -49,6 +57,20 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 }
 
 
+- (void)addButtonWithTitle:(NSString *)title whenClick:(void (^)(NSInteger))clickHandler
+{
+    [self.actionDict setValue:clickHandler forKey:title];
+    [self.titles addObject:title];
+}
+
+- (void)buttonDidClick:(UIButton *)aButton
+{
+    void (^clickBlock)(NSInteger index) = [self.actionDict valueForKey:aButton.currentTitle];
+    if (clickBlock) {
+        clickBlock(aButton.tag-1000);
+    }
+}
+
 #pragma mark - Load View
 
 - (void)buildUI
@@ -56,6 +78,43 @@ const static CGFloat kDefaultHeaderHeight       = 60;
     CGSize screen = [self screenSize];
     CGSize container = [self containerSize];
     self.frame = CGRectMake((screen.width - container.width)/2., (screen.height - container.height)/2., container.width,container.height);
+    UIView *hLine = [[UIView alloc] initWithFrame:CGRectMake(0, kDefaultHeaderHeight+self.msgHeight, kDefaultAlertWidth, 1)];
+    hLine.backgroundColor = lineColor;
+    [self.containerView addSubview:hLine];
+    
+    
+}
+
+- (void)configButtonView
+{
+    if (self.titles.count == 0) {
+        //默认的
+        [self defaultStyle];
+    }
+    
+    CGFloat width = (kDefaultAlertWidth - (self.titles.count - 1) * kDefaultLineHeightOrWidth)/self.titles.count;
+    for (NSInteger index = 0; index < self.titles.count; index++) {
+        NSString *title = self.titles[index];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.tag = index + 1000;
+        [button setTitle:title forState:UIControlStateNormal];
+        [button setTitleColor:buttonTitleColor forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(buttonDidClick:) forControlEvents:UIControlEventTouchUpInside];
+        button.titleLabel.font = [UIFont systemFontOfSize:18.];
+        [self.buttonView addSubview:button];
+        button.frame = CGRectMake(width * index, 0, width, kDefaultButtonHeight);
+        
+        if ((index >= 1) && (index != [self.titles count])) {
+            UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(index * (width+kDefaultLineHeightOrWidth), button.frame.origin.y, kDefaultLineHeightOrWidth, button.bounds.size.height)];
+            lineView.backgroundColor = lineColor;
+            [self.buttonView addSubview:lineView];
+        }
+    }
+}
+
+- (void)configHeaderView
+{
+    self.tipLabel.text = self.tipMsg;
 }
 
 #pragma mark - Life Cycle
@@ -66,9 +125,23 @@ const static CGFloat kDefaultHeaderHeight       = 60;
         self.orientation = UIInterfaceOrientationPortrait;
         self.roattionEnable = YES;
         self.tapDismissEnable = YES;
-        [self buildUI];
+        self.clipsToBounds = YES;
+        self.layer.cornerRadius = kDefaultCornerRadius;
+        self.titles = [NSMutableArray array];
+        self.actionDict = [NSMutableDictionary dictionaryWithCapacity:1];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    }
+    return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)aTitle
+{
+    if (self = [self init]) {
+        self.tipMsg = aTitle;
+        CGSize size = [self sizeString:aTitle withFont:[UIFont systemFontOfSize:18]];
+        self.msgHeight = size.height;
+        [self buildUI];
     }
     return self;
 }
@@ -109,7 +182,7 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 
 - (CGSize)containerSize
 {
-    return CGSizeMake(kDefaultAlertWidth, kDefaultButtonHeight + kDefaultHeaderHeight);
+    return CGSizeMake(kDefaultAlertWidth, kDefaultButtonHeight + kDefaultHeaderHeight + self.msgHeight);
 }
 
 - (void)doAlertShowAnimation
@@ -143,6 +216,24 @@ const static CGFloat kDefaultHeaderHeight       = 60;
                          [self removeFromSuperview];
                      }
      ];
+}
+
+
+- (CGSize)sizeString:(NSString *)aStr withFont:(UIFont *)font
+{
+    NSDictionary *dict = @{NSFontAttributeName: font};
+    CGSize textSize = [aStr boundingRectWithSize:CGSizeMake(kDefaultAlertWidth - 20, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil].size;
+    return textSize;
+}
+
+- (void)defaultStyle
+{
+    NSString *title = @"需要自己设置按钮";
+    self.titles = [NSMutableArray arrayWithArray:@[title]];
+    void (^clickBlock)(NSInteger index) = ^(NSInteger index){
+        [self removeFromSuperview];
+    };
+    [self.actionDict setValue:clickBlock forKey:title];
 }
 
 #pragma mark - 键盘处理
@@ -293,8 +384,43 @@ const static CGFloat kDefaultHeaderHeight       = 60;
         _containerView.backgroundColor = [UIColor whiteColor];
         _containerView.alpha = 0.9;
         _containerView.layer.cornerRadius = kDefaultCornerRadius;
+        _containerView.clipsToBounds = YES;
+        _containerView.frame = self.bounds;
+        [self addSubview:self.containerView];
+
     }
     return _containerView;
+}
+
+- (UIView *)buttonView
+{
+    if (_buttonView == nil) {
+        _buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, kDefaultHeaderHeight+self.msgHeight, kDefaultAlertWidth, kDefaultButtonHeight)];
+        [self.containerView addSubview:_buttonView];
+    }
+    return _buttonView;
+}
+
+- (UIView *)msgView
+{
+    if (_msgView == nil) {
+        _msgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kDefaultAlertWidth, kDefaultHeaderHeight+self.msgHeight)];
+        [self.containerView addSubview:_msgView];
+    }
+    return _msgView;
+}
+
+- (UILabel *)tipLabel
+{
+    if (_tipLabel == nil) {
+        _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, kDefaultAlertWidth-20, kDefaultHeaderHeight-20+self.msgHeight)];
+        _tipLabel.font = [UIFont boldSystemFontOfSize:18];
+        _tipLabel.numberOfLines = 0.;
+        _tipLabel.textColor = [UIColor blackColor];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        [self.msgView addSubview:_tipLabel];
+    }
+    return _tipLabel;
 }
 
 @end
