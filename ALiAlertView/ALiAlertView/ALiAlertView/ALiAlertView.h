@@ -24,7 +24,7 @@
 /**
  顶部显示的view 外部可以自定义,如果未设置默认使用纯文本的样式
  */
-@property (nonatomic, strong) UIView *msgView;
+@property (nonatomic, strong) UIView *contentView;
 
 
 /**

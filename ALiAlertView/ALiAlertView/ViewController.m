@@ -26,7 +26,7 @@
 }
 - (IBAction)customView:(UIButton *)sender {
     self.alert = [[ALiAlertView alloc] init];
-    self.alert.msgView = [self customView];
+    self.alert.contentView = [self customView];
     [self.alert show];
 }
 

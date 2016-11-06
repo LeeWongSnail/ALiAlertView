@@ -28,6 +28,7 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 //整体的View
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIView *buttonView;
+@property (nonatomic, strong) UIView *msgView;
 @property (nonatomic, strong) UILabel *tipLabel;
 //数据
 @property (nonatomic, strong) NSMutableArray *titles;
@@ -52,7 +53,9 @@ const static CGFloat kDefaultHeaderHeight       = 60;
         [self setNeedsDisplay];
         [self defaultSetting];
         [self buildUI];
-//        self.msgView.frame = CGRectMake((kDefaultAlertWidth -self.msgView.frame.size.width)/2., 10, self.msgView.frame.size.width, self.msgView.frame.size.height);
+        [self.msgView addSubview:self.contentView];
+        self.msgView.frame = CGRectMake(0, 0, kDefaultAlertWidth, self.msgHeight);
+        self.contentView.frame = CGRectMake((kDefaultAlertWidth - self.contentView.frame.size.width)/2., 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
         [self addSubview:self.msgView];
     }
     [self configButtonView];
