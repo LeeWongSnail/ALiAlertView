@@ -44,19 +44,15 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 
 - (void)show
 {
-    if (self.msgView == nil) {
+    if (self.contentView == nil) {
         //使用默认的样式
-        self.msgView = [self defaultMsgView];
         [self configHeaderView];
     } else {
-        self.msgHeight = self.msgView.frame.size.height-kDefaultHeaderHeight;
-        [self setNeedsDisplay];
+        self.msgHeight = self.contentView.frame.size.height - kDefaultHeaderHeight;
         [self defaultSetting];
         [self buildUI];
+        self.contentView.frame = CGRectMake((kDefaultAlertWidth - self.contentView.frame.size.width)/2.,0, self.contentView.frame.size.width, self.contentView.frame.size.height);
         [self.msgView addSubview:self.contentView];
-        self.msgView.frame = CGRectMake(0, 0, kDefaultAlertWidth, self.msgHeight);
-        self.contentView.frame = CGRectMake((kDefaultAlertWidth - self.contentView.frame.size.width)/2., 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-        [self addSubview:self.msgView];
     }
     [self configButtonView];
     [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
@@ -410,7 +406,7 @@ const static CGFloat kDefaultHeaderHeight       = 60;
     return _buttonView;
 }
 
-- (UIView *)defaultMsgView
+- (UIView *)msgView
 {
     if (_msgView == nil) {
         _msgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kDefaultAlertWidth, kDefaultHeaderHeight+self.msgHeight)];
