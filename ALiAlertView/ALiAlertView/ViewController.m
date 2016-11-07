@@ -14,17 +14,33 @@
 @end
 
 @implementation ViewController
-- (IBAction)dismiss:(UIButton *)sender {
-    [self.alert dismiss];
-    [self.alert removeFromSuperview];
-    self.alert = nil;
 
-}
-- (IBAction)show:(UIButton *)sender {
+- (IBAction)showLongText:(UIButton *)sender {
     self.alert = [[ALiAlertView alloc] initWithTitle:@"是否确认执行此操作,是否确认执行此操作是否确认执行此操作是否确认执行此操作是否确认执行此操作"];
+    [self.alert addButtonWithTitle:@"确认" whenClick:^(NSInteger index) {
+        NSLog(@"确认");
+    }];
+    [self.alert addButtonWithTitle:@"取消" whenClick:^(NSInteger index) {
+        NSLog(@"取消");
+    }];
     [self.alert show];
 }
-- (IBAction)customView:(UIButton *)sender {
+- (IBAction)showNormalText:(UIButton *)sender {
+    self.alert = [[ALiAlertView alloc] initWithTitle:@"是否确认执行此操作"];
+    
+    [self.alert addButtonWithTitle:@"确认" whenClick:^(NSInteger index) {
+        NSLog(@"确认");
+    }];
+    [self.alert show];
+}
+
+- (IBAction)showImageView:(UIButton *)sender {
+    self.alert = [[ALiAlertView alloc] init];
+    self.alert.contentView = [self customView];
+    [self.alert show];
+}
+
+- (IBAction)showTableView:(UIButton *)sender {
     self.alert = [[ALiAlertView alloc] init];
     self.alert.contentView = [self tableView];
     [self.alert show];
@@ -33,7 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor greenColor];
 }
 
 

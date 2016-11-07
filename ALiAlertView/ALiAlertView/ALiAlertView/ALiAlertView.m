@@ -76,6 +76,7 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 {
     void (^clickBlock)(NSInteger index) = [self.actionDict valueForKey:aButton.currentTitle];
     if (clickBlock) {
+        [self dismiss];
         clickBlock(aButton.tag-1000);
     }
 }
@@ -130,9 +131,9 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 {
     if (self = [self init]) {
         self.tipMsg = aTitle;
+        [self defaultSetting];
         CGSize size = [self sizeString:aTitle withFont:[UIFont systemFontOfSize:18]];
         self.msgHeight = size.height;
-        [self defaultSetting];
         [self buildUI];
     }
     return self;
@@ -327,7 +328,9 @@ const static CGFloat kDefaultHeaderHeight       = 60;
 - (void)configHUDOrientation:(UIInterfaceOrientation )orientation
 {
     CGFloat angle = [self calculateTransformAngle:orientation];
-    self.transform = CGAffineTransformRotate(self.transform, angle);
+    [UIView animateWithDuration:0.25f animations:^{
+        self.transform = CGAffineTransformRotate(self.transform, angle);
+    }];
 }
 
 

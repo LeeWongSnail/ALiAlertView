@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -23,35 +22,44 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5XO-xO-5hv">
-                                <rect key="frame" x="77" y="524" width="37" height="30"/>
-                                <state key="normal" title="show"/>
+                                <rect key="frame" x="127" y="120" width="121" height="30"/>
+                                <state key="normal" title="show normal Text"/>
                                 <connections>
-                                    <action selector="show:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pia-da-ECr"/>
+                                    <action selector="showNormalText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="idE-wL-y2j"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ne-VG-GjU">
-                                <rect key="frame" x="264" y="524" width="52" height="30"/>
-                                <state key="normal" title="dismiss"/>
+                                <rect key="frame" x="137" y="203" width="100" height="30"/>
+                                <state key="normal" title="show long text"/>
                                 <connections>
-                                    <action selector="dismiss:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UCG-pa-uhB"/>
+                                    <action selector="showLongText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7d5-z3-Xo4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e2P-Lc-ixR">
-                                <rect key="frame" x="143" y="611" width="88" height="30"/>
-                                <state key="normal" title="custom View"/>
+                                <rect key="frame" x="103" y="290" width="169" height="30"/>
+                                <state key="normal" title="show custom ImageView"/>
                                 <connections>
-                                    <action selector="customView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J1r-JN-a4y"/>
+                                    <action selector="showImageView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aRw-lm-4Uh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fj-wC-mNd">
+                                <rect key="frame" x="107" y="380" width="160" height="30"/>
+                                <state key="normal" title="show custom tableview"/>
+                                <connections>
+                                    <action selector="showTableView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="I0O-kS-pMh"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="e2P-Lc-ixR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="F4h-kg-FHL"/>
-                            <constraint firstItem="5Ne-VG-GjU" firstAttribute="baseline" secondItem="5XO-xO-5hv" secondAttribute="baseline" id="O2O-hO-Keo"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5XO-xO-5hv" secondAttribute="bottom" constant="113" id="STD-ec-f3Z"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="5Ne-VG-GjU" secondAttribute="trailing" constant="43" id="aDY-jr-z2P"/>
-                            <constraint firstItem="5XO-xO-5hv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="61" id="dEb-nZ-Fbo"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="e2P-Lc-ixR" secondAttribute="bottom" constant="26" id="hEZ-Gj-D9C"/>
+                            <constraint firstItem="e2P-Lc-ixR" firstAttribute="top" secondItem="5Ne-VG-GjU" secondAttribute="bottom" constant="57" id="MnN-LY-vXO"/>
+                            <constraint firstItem="5XO-xO-5hv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="100" id="NcU-G3-6yM"/>
+                            <constraint firstItem="0fj-wC-mNd" firstAttribute="top" secondItem="e2P-Lc-ixR" secondAttribute="bottom" constant="60" id="Qnf-oK-iSS"/>
+                            <constraint firstItem="5Ne-VG-GjU" firstAttribute="top" secondItem="5XO-xO-5hv" secondAttribute="bottom" constant="53" id="fc5-X1-7Xx"/>
+                            <constraint firstItem="e2P-Lc-ixR" firstAttribute="centerX" secondItem="0fj-wC-mNd" secondAttribute="centerX" id="o4v-Tf-7VH"/>
+                            <constraint firstItem="5XO-xO-5hv" firstAttribute="centerX" secondItem="5Ne-VG-GjU" secondAttribute="centerX" id="u1y-8f-irN"/>
+                            <constraint firstItem="5Ne-VG-GjU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vhe-2W-TCN"/>
+                            <constraint firstItem="5Ne-VG-GjU" firstAttribute="centerX" secondItem="e2P-Lc-ixR" secondAttribute="centerX" id="yy6-nY-QmJ"/>
                         </constraints>
                     </view>
                 </viewController>
